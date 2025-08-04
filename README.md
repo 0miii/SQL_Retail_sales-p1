@@ -187,6 +187,67 @@ FROM hourly_sale
 GROUP BY shift
 ```
 
+11. **Write a query to show most popular product category among female customers**:
+```sql
+SELECT category, COUNT(*) AS total_purchases
+FROM retail_sales
+WHERE gender = 'Female'
+GROUP BY category
+ORDER BY total_purchases DESC
+LIMIT 1;
+```
+
+12. **Query to show  Which day of the week has the highest number of sales**:
+```sql
+
+SELECT TO_CHAR(sale_date, 'Day') AS day_of_week,
+       COUNT(*) AS total_sales
+FROM retail_sales
+GROUP BY day_of_week
+ORDER BY total_sales DESC
+LIMIT 1;
+```
+
+13. **What is the age group with the highest average spending per order**:
+```sql
+SELECT 
+  CASE 
+    WHEN age BETWEEN 18 AND 25 THEN '18-25'
+    WHEN age BETWEEN 26 AND 35 THEN '26-35'
+    WHEN age BETWEEN 36 AND 50 THEN '36-50'
+    ELSE '51+' 
+  END AS age_group,
+  ROUND(AVG(total_sale)::numeric, 2) AS avg_spending
+FROM retail_sales
+GROUP BY age_group
+ORDER BY avg_spending DESC;
+```
+
+14. **Which month had the highest total revenue in 2022**:
+```sql
+SELECT 
+  TO_CHAR(sale_date, 'Month') AS month,
+  SUM(total_sale) AS total_revenue
+FROM retail_sales
+WHERE EXTRACT(YEAR FROM sale_date) = 2022
+GROUP BY month
+ORDER BY total_revenue DESC
+LIMIT 1;
+```
+
+15. **15.Who is the most loyal customer (by number of transactions**:
+```sql
+
+SELECT customer_id, COUNT(*) AS total_transactions
+FROM retail_sales
+GROUP BY customer_id
+ORDER BY total_transactions DESC
+LIMIT 1;
+```
+
+
+
+
 ## Findings
 
 - **Customer Demographics**: The dataset includes customers from various age groups, with sales distributed across different categories such as Clothing and Beauty.
@@ -225,3 +286,4 @@ For more content on SQL, data analysis, and other data-related topics, make sure
 - **Discord**: [Join our community to learn and grow together](https://discord.gg/36h5f2Z5PK)
 
 Thank you for your support, and I look forward to connecting with you!
+
